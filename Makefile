@@ -3,7 +3,7 @@ BINARY_NAME := birdnet-go
 TFLITE_VERSION := v2.14.0
 
 # Common flags
-CGO_FLAGS := CGO_ENABLED=1 CGO_CFLAGS="-I$(HOME)/src/tensorflow"
+CGO_FLAGS := CGO_ENABLED=1 CGO_CFLAGS="-I$(HOME)/Development/tensorflow"
 LDFLAGS := -ldflags "-s -w -X 'github.com/tphakala/birdnet-go/internal/conf.buildDate=$(shell date -u +%Y-%m-%dT%H:%M:%SZ)'"
 
 # Detect host architecture
@@ -30,13 +30,13 @@ check-tools:
 
 # Check and clone TensorFlow if not exists
 check-tensorflow:
-	@if [ ! -f "$(HOME)/src/tensorflow/tensorflow/lite/c/c_api.h" ]; then \
+	@if [ ! -f "$(HOME)/Development/tensorflow/tensorflow/lite/c/c_api.h" ]; then \
 		echo "TensorFlow Lite C API header not found. Cloning TensorFlow source..."; \
-		mkdir -p $(HOME)/src; \
-		git clone --branch v2.14.0 --filter=blob:none --depth 1 --no-checkout https://github.com/tensorflow/tensorflow.git $(HOME)/src/tensorflow; \
-		git -C $(HOME)/src/tensorflow config core.sparseCheckout true; \
-		echo "**/*.h" >> $(HOME)/src/tensorflow/.git/info/sparse-checkout; \
-		git -C $(HOME)/src/tensorflow checkout; \
+		mkdir -p $(HOME)/Development; \
+		git clone --branch v2.14.0 --filter=blob:none --depth 1 --no-checkout https://github.com/tensorflow/tensorflow.git $(HOME)/Development/tensorflow; \
+		git -C $(HOME)/Development/tensorflow config core.sparseCheckout true; \
+		echo "**/*.h" >> $(HOME)/Development/tensorflow/.git/info/sparse-checkout; \
+		git -C $(HOME)/Development/tensorflow checkout; \
 	else \
 		echo "TensorFlow Lite C API header exists."; \
 	fi
